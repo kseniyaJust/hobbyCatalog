@@ -1,5 +1,6 @@
 package org.example.hobbycatalog.controller;
 
+import jakarta.validation.Valid;
 import org.example.hobbycatalog.DTO.UpdateUserAddressDTO;
 import org.example.hobbycatalog.DTO.UserAddressDTO;
 import org.example.hobbycatalog.entity.UserAdress;
@@ -36,12 +37,12 @@ public class UserAdressController {
     }
 
     @PostMapping
-    public UserAddressDTO addAdress(@RequestBody UserAddressDTO userAddress){
+    public UserAddressDTO addAdress(@RequestBody @Valid UserAddressDTO userAddress){
         return userAddressService.createNewAddress(userAddress);
     }
 
     @PutMapping("/{id}")
-    public UserAddressDTO updateAdress(@PathVariable Long id, @RequestBody UpdateUserAddressDTO userAddress){
+    public UserAddressDTO updateAdress(@PathVariable Long id, @RequestBody @Valid UpdateUserAddressDTO userAddress){
         return userAddressService.updateAddress(id, userAddress);
     }
 
