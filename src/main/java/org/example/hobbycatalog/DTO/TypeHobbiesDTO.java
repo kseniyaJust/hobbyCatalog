@@ -1,23 +1,24 @@
 package org.example.hobbycatalog.DTO;
 
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.example.hobbycatalog.entity.UsersInfo;
 
 @Data
 public class TypeHobbiesDTO {
 
     private Long idType;
 
-    @NotEmpty
+    @NotNull(message = "Type name is required")
+    @NotEmpty(message = "Type name cannot be empty")
     private String typeName;
 
-    @Min(2)
+    @NotNull(message = "Count players is required")
+    @Min(value = 2, message = "Count players must be at least 2")
     private int countPlayers;
 
-    @NotEmpty
+    @NotNull(message = "Summary is required")
+    @NotEmpty(message = "Summary cannot be empty")
     private String summary;
-
 }

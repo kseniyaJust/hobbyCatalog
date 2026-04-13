@@ -1,6 +1,5 @@
 package org.example.hobbycatalog.DTO;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data

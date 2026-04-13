@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItemDTO {
-    private String name;      // Название товара
-    private int quantity;     // Количество
-    private double price;     // Цена за единицу
-    private double totalPrice; // Общая цена за этот товар (price * quantity)
+    private String name;
+    private int quantity;
+    private double price;
+    private double totalPrice;
 }

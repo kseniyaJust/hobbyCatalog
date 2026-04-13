@@ -10,13 +10,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PagedHobbiesResponseDTO {
-    private List<HobbyDTO> content;           // Содержимое страницы
-    private int pageNumber;                   // Номер текущей страницы
-    private int pageSize;                     // Размер страницы
-    private long totalElements;               // Всего элементов
-    private int totalPages;                   // Всего страниц
-    private boolean first;                    // Первая страница
-    private boolean last;                     // Последняя страница
-    private boolean empty;                    // Пустая страница
-    private int numberOfElements;             // Количество элементов на странице
+    private List<HobbyDTO> content;
+    private int pageNumber;
+    private int pageSize;
+    private long totalElements;
+    private int totalPages;
+    private boolean first;
+    private boolean last;
+    private boolean empty;
+    private int numberOfElements;
 }

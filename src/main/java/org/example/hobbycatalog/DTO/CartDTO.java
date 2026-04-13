@@ -5,6 +5,6 @@ import java.util.List;
 
 @Data
 public class CartDTO {
-    private List<CartItemDTO> items;  // Список товаров в корзине
-    private int totalAmount;          // Общая сумма корзины
+    private List<CartItemDTO> items;
+    private int totalAmount;
 }
