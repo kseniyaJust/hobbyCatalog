@@ -1,0 +1,37 @@
+services:
+  hobby_app:
+    container_name: hobby_catalog_app
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+
+    environment:
+      - DATABASE=jdbc:postgresql://hobby-db:5432/hobbycatalogdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1k2s3e4n
+    depends_on:
+      - hobby-db
+    networks:
+      - hobby-network
+  hobby-db:
+    image: postgres:16
+    container_name: hobby_catalog_db
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: hobbycatalogdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1k2s3e4n
+    ports:
+      - "5432:5432"
+    networks:
+      - hobby-network
+
+
+volumes:
+  db-data:
+networks:
+  hobby-network:
+    driver: bridge
