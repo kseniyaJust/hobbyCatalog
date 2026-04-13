@@ -34,11 +34,10 @@ public class SecurityTokenService {
     {
         log.info("Before authenticate");
 
-        // Аутентификация пользователя
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDTO.getEmail(), authRequestDTO.getPassword())
         );
-        // Получение пользователя и генерация токенов
+
         UsersInfo userInfo = usersInfoService.getUserByEmail(authRequestDTO.getEmail());
         String accessToken = jwtService.generateAccessJwtToken(userInfo);
         String refreshToken = jwtService.generateRefreshToken(userInfo);
@@ -50,7 +49,6 @@ public class SecurityTokenService {
     public String registerUser(RegistUserDTO requestDTO)
     {
         return usersInfoService.register(requestDTO);
-
     }
 
     @Transactional

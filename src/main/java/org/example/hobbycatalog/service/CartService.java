@@ -44,7 +44,6 @@ public class CartService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    // Просмотр всех товаров в корзине
     @Transactional(readOnly = true)
     public CartDTO getCart() {
         UsersInfo user = getCurrentUser();
@@ -74,7 +73,6 @@ public class CartService {
         return cartDTO;
     }
 
-    // Добавление товара в корзину
     @Transactional
     public CartDTO addItemToCart(Long hobbyId, int quantity) {
         UsersInfo user = getCurrentUser();
@@ -82,17 +80,14 @@ public class CartService {
         Hobbies hobby = hobbiesRepository.findById(hobbyId)
                 .orElseThrow(() -> new ItemNotFoundException("Hobby not found with id: " + hobbyId));
 
-        // Проверяем, есть ли уже такой товар в корзине
         java.util.Optional<Cart> existingItem = cartRepository.findByUserIdAndHobbyId(user.getIdUser(), hobbyId);
 
         if (existingItem.isPresent()) {
-            // Если есть, обновляем количество
             Cart item = existingItem.get();
             item.setQuantity(item.getQuantity() + quantity);
             cartRepository.save(item);
             log.info("Updated quantity of hobby {} in cart for user {}", hobby.getName(), user.getEmail());
         } else {
-            // Если нет, создаем новую запись
             Cart cartItem = new Cart();
             cartItem.setUser(user);
             cartItem.setHobby(hobby);
@@ -104,7 +99,6 @@ public class CartService {
         return getCart();
     }
 
-    // Обновление количества товара
     @Transactional
     public CartDTO updateItemQuantity(Long hobbyId, int quantity) {
         UsersInfo user = getCurrentUser();
@@ -123,7 +117,6 @@ public class CartService {
         return getCart();
     }
 
-    // Удаление товара из корзины
     @Transactional
     public CartDTO deleteItemFromCart(Long hobbyId) {
         UsersInfo user = getCurrentUser();
@@ -132,7 +125,6 @@ public class CartService {
         return getCart();
     }
 
-    // Очистка корзины
     @Transactional
     public CartDTO clearCart() {
         UsersInfo user = getCurrentUser();
@@ -141,7 +133,6 @@ public class CartService {
         return getCart();
     }
 
-    // Покупка товаров
     @Transactional
     public PurchaseResponseDTO purchaseItems(PurchaseDTO purchaseDTO) {
         UsersInfo user = getCurrentUser();
@@ -177,11 +168,9 @@ public class CartService {
                     ", Available: " + user.getBalance_amount());
         }
 
-        // Списываем средства
         user.setBalance_amount(user.getBalance_amount() - totalAmount);
         usersInfoRepository.save(user);
 
-        // Очищаем корзину
         cartRepository.clearCart(user.getIdUser());
 
         List<HobbyDTO> purchasedItems = itemsToPurchase.stream()

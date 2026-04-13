@@ -24,25 +24,20 @@ public class TypeHobbyService {
         this.typeHobbiesMapper = typeHobbiesMapper;
     }
 
-    // Создание нового типа хобби
     @Transactional
     public TypeHobbiesDTO createTypeHobby(TypeHobbiesDTO typeHobbiesDTO) {
-        // Проверяем, существует ли уже такой тип
+
         if (typeHobbiesRepository.existsByTypeName(typeHobbiesDTO.getTypeName())) {
             throw new RuntimeException("Type hobby with name '" + typeHobbiesDTO.getTypeName() + "' already exists");
         }
 
-        // Маппинг DTO в Entity
         TypeHobbies typeHobbies = typeHobbiesMapper.toEntity(typeHobbiesDTO);
 
-        // Сохраняем в БД
         TypeHobbies savedType = typeHobbiesRepository.save(typeHobbies);
 
-        // Возвращаем DTO с сгенерированным ID
         return typeHobbiesMapper.toDTO(savedType);
     }
 
-    // Получение всех типов хобби
     @Transactional(readOnly = true)
     public List<TypeHobbiesDTO> getAllTypeHobbies() {
         return typeHobbiesRepository.findAll()
@@ -51,7 +46,6 @@ public class TypeHobbyService {
                 .collect(Collectors.toList());
     }
 
-    // Получение типа по ID
     @Transactional(readOnly = true)
     public TypeHobbiesDTO getTypeHobbyById(Long id) {
         TypeHobbies typeHobbies = typeHobbiesRepository.findById(id)
@@ -76,7 +70,6 @@ public class TypeHobbyService {
         return typeHobbiesMapper.toDTO(updatedType);
     }
 
-    // Удаление типа хобби
     @Transactional
     public void deleteTypeHobby(Long id) {
         if (!typeHobbiesRepository.existsById(id)) {

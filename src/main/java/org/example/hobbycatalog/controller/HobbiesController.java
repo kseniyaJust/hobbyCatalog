@@ -18,20 +18,16 @@ public class HobbiesController {
         this.hobbiesService = hobbiesService;
     }
 
-    // ЕДИНЫЙ ЭНДПОИНТ ДЛЯ ПОЛУЧЕНИЯ И ПОИСКА ХОББИ
     @GetMapping
     public PagedHobbiesResponseDTO getHobbies(
-            // Параметры поиска
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) String typeName,
 
-            // Параметры пагинации (необязательные)
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
 
-            // Параметры сортировки (необязательные)
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortDirection
     ) {

@@ -5,7 +5,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.example.hobbycatalog.DTO.AuthRequestDTO;
 import org.example.hobbycatalog.entity.UsersInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -67,15 +66,12 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Универсальный метод извлечения claim'а из токена
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    /**
-     * Валидация токена (подпись + срок действия)
-     */
+
     public boolean isTokenValid(String token) {
         try {
             extractAllClaims(token);
@@ -85,7 +81,6 @@ public class JwtService {
         }
     }
 
-    // Извлечение всех claims из токена
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -94,9 +89,7 @@ public class JwtService {
                 .getBody();
     }
 
-    /**
-     * Создание ключа из секретной строки (обязательно для HS256)
-     */
+
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(private_key);
         return Keys.hmacShaKeyFor(keyBytes);

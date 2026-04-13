@@ -79,39 +79,33 @@ public class HobbiesService {
                 .orElseThrow(() -> new ItemNotFoundException("Hobby with id: " + id + " not found"));
     }
 
-    // ЕДИНЫЙ МЕТОД ДЛЯ ПОИСКА И ПАГИНАЦИИ
     @Transactional(readOnly = true)
     public PagedHobbiesResponseDTO searchHobbies(
-            String name,           // Поиск по имени
-            Double minPrice,       // Минимальная цена
-            Double maxPrice,       // Максимальная цена
-            String typeName,       // Тип хобби
-            Integer page,          // Номер страницы (опционально)
-            Integer size,          // Размер страницы (опционально)
-            String sortBy,         // Поле для сортировки (опционально)
-            String sortDirection   // Направление сортировки asc/desc (опционально)
+            String name,
+            Double minPrice,
+            Double maxPrice,
+            String typeName,
+            Integer page,
+            Integer size,
+            String sortBy,
+            String sortDirection
     ) {
-        // Устанавливаем значения по умолчанию
         int currentPage = (page != null && page >= 0) ? page : 0;
         int pageSize = (size != null && size > 0) ? size : 10;
         String sortField = (sortBy != null && !sortBy.isEmpty()) ? sortBy : "idHobby";
         Sort.Direction direction = (sortDirection != null && sortDirection.equalsIgnoreCase("desc"))
                 ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        // Создаем объект сортировки и пагинации
         Sort sort = Sort.by(direction, sortField);
         Pageable pageable = PageRequest.of(currentPage, pageSize, sort);
 
-        // Выполняем поиск с учетом всех параметров
         Page<Hobbies> hobbiesPage = hobbiesRepository.searchHobbies(name, minPrice, maxPrice, typeName, pageable);
 
-        // Преобразуем в DTO
         List<HobbyDTO> hobbyDTOs = hobbiesPage.getContent()
                 .stream()
                 .map(hobbiesMapper::toDTO)
                 .collect(Collectors.toList());
 
-        // Возвращаем пагинированный ответ
         return new PagedHobbiesResponseDTO(
                 hobbyDTOs,
                 hobbiesPage.getNumber(),
@@ -133,7 +127,4 @@ public class HobbiesService {
         throw new ItemNotFoundException("Hobby with id: " + id + " not found");
     }
 
-    public boolean checkExistHobby(Long id) {
-        return hobbiesRepository.existsById(id);
-    }
 }

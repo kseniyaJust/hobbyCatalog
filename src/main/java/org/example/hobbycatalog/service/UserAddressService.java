@@ -2,8 +2,6 @@ package org.example.hobbycatalog.service;
 
 import org.example.hobbycatalog.DTO.UpdateUserAddressDTO;
 import org.example.hobbycatalog.DTO.UserAddressDTO;
-import org.example.hobbycatalog.entity.Hobbies;
-import org.example.hobbycatalog.entity.TypeHobbies;
 import org.example.hobbycatalog.entity.UserAdress;
 import org.example.hobbycatalog.exceptions.ItemNotFoundException;
 import org.example.hobbycatalog.mapper.UserAddressMapper;
